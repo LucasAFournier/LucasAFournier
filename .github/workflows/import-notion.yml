@@ -1,0 +1,29 @@
+name: Import Notion
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+jobs:
+  import-notion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Clean old markdown (keep README)
+        run: |
+          find . -maxdepth 1 -type f -name "*.md" ! -name "README.md" -delete
+
+      - name: Export from Notion
+        uses: Gabriella439/notion-to-markdown@v1.1.0
+        with:
+          notion-token: ${{ secrets.NOTION_TOKEN }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'chore: sync Notion → markdown'
+          default_author: github_actions
