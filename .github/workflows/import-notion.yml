@@ -25,6 +25,21 @@ jobs:
         with:
           notion-token: ${{ secrets.NOTION_TOKEN }}
 
+      - name: Remove Notion IDs from filenames and links
+        run: |
+          shopt -s nullglob
+      
+          # 1) Rename files: Education-16ca0bd1c3e2810c9a7ae8b643954062.md -> Education.md
+          for f in *.md; do
+            if [[ "$f" =~ ^(.+)-[0-9a-f]{32}\.md$ ]]; then
+              new="${BASH_REMATCH[1]}.md"
+              mv "$f" "$new"
+            fi
+          done
+      
+          # 2) Fix links inside markdown files that still point to the old names
+          perl -pi -e 's/-[0-9a-f]{32}\.md/.md/g' *.md
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
