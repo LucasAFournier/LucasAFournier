@@ -45,3 +45,11 @@ jobs:
         with:
           message: 'chore: sync Notion → markdown'
           default_author: github_actions
+
+  sync-local:
+    needs: import-notion            # run only after the Notion import+commit succeeds
+    runs-on: [self-hosted, Windows] # use your Windows runner
+    steps:
+      - name: Pull latest changes in local clone
+        run: git pull
+        working-directory: 'C:\Users\lucas\Desktop\GitHub\LucasAFournier'
