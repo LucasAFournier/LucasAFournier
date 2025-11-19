@@ -11,6 +11,8 @@ permissions:
 jobs:
   import-notion:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -49,6 +51,8 @@ jobs:
   sync-local:
     needs: import-notion            # run only after the Notion import+commit succeeds
     runs-on: [self-hosted, Windows] # use your Windows runner
+    permissions:
+      contents: read
     steps:
       - name: Pull latest changes in local clone
         run: git pull
