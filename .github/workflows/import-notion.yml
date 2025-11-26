@@ -56,4 +56,4 @@ jobs:
     steps:
       - name: Pull latest changes in local clone
         run: git pull
-        working-directory: 'C:\Users\lucas\Desktop\GitHub\LucasAFournier'
+        working-directory: 'C:\Users\lucas\pro\areas\website'
